@@ -29,9 +29,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import com.example.vkstart.ui.theme.VkstartTheme
+
 
 class FirstActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -263,5 +265,23 @@ fun FirstScreen(
                 }
             }
         }
+    }
+}
+
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun FirstScreenPreview() {
+    VkstartTheme {
+        FirstScreen(
+            onOpenSecondActivity = { text ->
+                // Dummy action for preview
+            },
+            onCallFriend = { phoneNumber ->
+                // Dummy action for preview
+            },
+            onShareText = { text ->
+                // Dummy action for preview
+            }
+        )
     }
 }

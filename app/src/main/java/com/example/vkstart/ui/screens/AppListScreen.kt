@@ -23,7 +23,8 @@ import com.example.vkstart.ui.theme.VkstartTheme
 @Composable
 fun AppListScreen(
     modifier: Modifier = Modifier,
-    appList: List<AppInfo> = SampleData.sampleApps
+    appList: List<AppInfo> = SampleData.sampleApps,
+    onAppClick: (AppInfo) -> Unit = {}
 ) {
     Scaffold(
         modifier = modifier.fillMaxSize(),
@@ -42,7 +43,7 @@ fun AppListScreen(
                 items = appList,
                 key = { app -> app.id }
             ) { app ->
-                AppListItem(appInfo = app)
+                AppListItem(appInfo = app, onClick = { onAppClick(app) })
             }
         }
     }

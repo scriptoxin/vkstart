@@ -34,9 +34,11 @@ import com.example.vkstart.model.AppInfo
 @Composable
 fun AppListItem(
     appInfo: AppInfo,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = {}
 ) {
     Card(
+        onClick = onClick,
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(

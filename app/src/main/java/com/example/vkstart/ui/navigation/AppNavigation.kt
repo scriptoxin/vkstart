@@ -8,7 +8,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.vkstart.data.SampleData
 import com.example.vkstart.ui.appdetails.AppDetailsScreen
-import com.example.vkstart.ui.screens.AppListScreen
+import com.example.vkstart.ui.screens.AppListRoute
 
 private const val APP_LIST = "apps"
 private const val APP_DETAILS = "apps/{appId}"
@@ -18,7 +18,7 @@ fun AppNavigation() {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = APP_LIST) {
         composable(APP_LIST) {
-            AppListScreen(onAppClick = { app ->
+            AppListRoute(onAppClick = { app ->
                 navController.navigate("apps/${app.id}") { launchSingleTop = true }
             })
         }

@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">vkstart</string>
+    <string name="app_list_toolbar_message">Выберите приложение из списка</string>
 
     <string name="category_app">Приложения</string>
     <string name="category_game">Игры</string>

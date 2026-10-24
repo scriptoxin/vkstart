@@ -14,8 +14,8 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
 import androidx.compose.ui.test.performTouchInput
-import androidx.compose.ui.test.swipeLeft
-import androidx.compose.ui.test.swipeRight
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.test.swipe
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Rule
 import org.junit.Test
@@ -31,29 +31,27 @@ class ShowcaseNavigationTest {
         val firstAppOnPage = listOf("ВКонтакте", "VK Мессенджер", "Почта Mail.ru")
         for (targetPage in 0..2) {
             compose.onNodeWithText("ВКонтакте").performClick()
+            waitForAnimations()
             compose.onNodeWithTag("showcase_pager").performScrollTo()
             repeat(targetPage) {
-                compose.onNodeWithTag("showcase_pager").performTouchInput { swipeLeft() }
-                compose.waitForIdle()
+                swipeShowcase(forward = true)
             }
             compose.onAllNodes(
                 hasClickAction() and hasParent(hasTestTag("showcase_page_$targetPage")),
             ).assertCountEquals(3)
             if (targetPage == 2) {
                 // The last page must remain the last page after another swipe.
-                compose.onNodeWithTag("showcase_pager").performTouchInput { swipeLeft() }
-                compose.waitForIdle()
+                swipeShowcase(forward = true)
                 compose.onNodeWithTag("showcase_page_2").assertIsDisplayed()
-                compose.onNodeWithTag("showcase_pager").performTouchInput { swipeRight() }
-                compose.waitForIdle()
+                swipeShowcase(forward = false)
                 compose.onNodeWithTag("showcase_page_1").assertIsDisplayed()
-                compose.onNodeWithTag("showcase_pager").performTouchInput { swipeLeft() }
-                compose.waitForIdle()
+                swipeShowcase(forward = true)
             }
             compose.onNode(
                 hasText(firstAppOnPage[targetPage]) and
                     hasAnyAncestor(hasTestTag("showcase_page_$targetPage")),
-            ).performClick()
+            ).performScrollTo().performClick()
+            waitForAnimations()
             compose.onNodeWithText("Список приложений").assertIsDisplayed()
         }
     }
@@ -61,14 +59,41 @@ class ShowcaseNavigationTest {
     @Test
     fun selectedAppDetailsAndBackButtonWork() {
         compose.onNodeWithText("VK Музыка").performClick()
-        compose.onNodeWithText("VK Музыка").assertIsDisplayed()
+        waitForAnimations()
+        compose.onNode(
+            hasText("VK Музыка") and !hasAnyAncestor(hasTestTag("showcase_pager")),
+        ).assertIsDisplayed()
         compose.onNodeWithText("Описание приложения").assertIsDisplayed()
         compose.onNodeWithContentDescription("Назад").performClick()
+        waitForAnimations()
         compose.onNodeWithText("Список приложений").assertIsDisplayed()
         compose.onNodeWithText("VK Видео").performClick()
+        waitForAnimations()
         compose.activityRule.scenario.recreate()
-        compose.onNodeWithText("VK Видео").assertIsDisplayed()
+        compose.onNode(
+            hasText("VK Видео") and !hasAnyAncestor(hasTestTag("showcase_pager")),
+        ).assertIsDisplayed()
         compose.onNodeWithContentDescription("Назад").performClick()
+        waitForAnimations()
         compose.onNodeWithText("Список приложений").assertIsDisplayed()
+    }
+
+    private fun waitForAnimations() {
+        // Both destinations can be present until NavHost's transition finishes.
+        compose.mainClock.advanceTimeBy(1_000)
+        compose.waitForIdle()
+    }
+
+    private fun swipeShowcase(forward: Boolean) {
+        val pager = compose.onNodeWithTag("showcase_pager")
+        val node = pager.fetchSemanticsNode()
+        // A tall pager may be clipped by the vertical list. Swipe in its visible area.
+        val visibleY = node.boundsInRoot.center.y - node.positionInRoot.y
+        pager.performTouchInput {
+            val left = Offset(width * 0.1f, visibleY)
+            val right = Offset(width * 0.9f, visibleY)
+            swipe(start = if (forward) right else left, end = if (forward) left else right)
+        }
+        waitForAnimations()
     }
 }

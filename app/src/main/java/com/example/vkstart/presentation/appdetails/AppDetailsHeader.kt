@@ -1,4 +1,4 @@
-package com.example.vkstart.ui.appdetails
+package com.example.vkstart.presentation.appdetails
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 import com.example.vkstart.R
-import com.example.vkstart.model.AppDetails
+import com.example.vkstart.domain.model.AppDetails
 import androidx.compose.foundation.Image
 import androidx.compose.ui.res.painterResource
 import kotlin.math.roundToInt

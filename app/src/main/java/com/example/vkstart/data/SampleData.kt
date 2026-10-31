@@ -1,8 +1,8 @@
 package com.example.vkstart.data
 
 import com.example.vkstart.R
-import com.example.vkstart.model.AppInfo
-import com.example.vkstart.model.AppDetails
+import com.example.vkstart.data.dto.AppInfoDto
+import com.example.vkstart.data.dto.AppDetailsDto
 
 /**
  * Захардкоженные тестовые данные списка приложений.
@@ -11,63 +11,63 @@ object SampleData {
     const val SHOWCASE_PAGE_COUNT = 3
     const val APPS_PER_PAGE = 3
     val sampleApps = listOf(
-        AppInfo(
+        AppInfoDto(
             id = 1,
             name = "ВКонтакте",
             description = "Общение, музыка, видео, новости и сервисы в одном приложении",
             category = "Социальные сети",
             iconRes = R.drawable.ic_vk
         ),
-        AppInfo(
+        AppInfoDto(
             id = 2,
             name = "VK Музыка",
             description = "Миллионы треков, подкасты, радио и персональные плейлисты",
             category = "Музыка",
             iconRes = R.drawable.ic_vk_music
         ),
-        AppInfo(
+        AppInfoDto(
             id = 3,
             name = "VK Видео",
             description = "Фильмы, сериалы, шоу, стримы и эксклюзивный контент блогеров",
             category = "Видео",
             iconRes = R.drawable.ic_vk_video
         ),
-        AppInfo(
+        AppInfoDto(
             id = 4,
             name = "VK Мессенджер",
             description = "Быстрые чаты, групповые видеозвонки и обмен файлами",
             category = "Общение",
             iconRes = R.drawable.ic_vk_messenger
         ),
-        AppInfo(
+        AppInfoDto(
             id = 5,
             name = "VK Play",
             description = "Игровой каталог, новости, облачный гейминг и киберспорт",
             category = "Игры",
             iconRes = R.drawable.ic_vk_play
         ),
-        AppInfo(
+        AppInfoDto(
             id = 6,
             name = "Сферум",
             description = "Безопасное учебное пространство, уроки и школьные коммуникации",
             category = "Образование",
             iconRes = R.drawable.ic_sferum
         ),
-        AppInfo(
+        AppInfoDto(
             id = 7,
             name = "Почта Mail.ru",
             description = "Удобный почтовый клиент с защитой от спама и умными папками",
             category = "Инструменты",
             iconRes = R.drawable.ic_mail
         ),
-        AppInfo(
+        AppInfoDto(
             id = 8,
             name = "Облако Mail",
             description = "Хранение фотографий, документов и резервных копий",
             category = "Инструменты",
             iconRes = R.drawable.ic_cloud
         ),
-        AppInfo(
+        AppInfoDto(
             id = 9,
             name = "Гильдия Героев: Экшен ММО РПГ",
             description = "Легендарный рейд героев в Фэнтези РПГ. Станьте героем гильдии и сразите мастера подземелья!",
@@ -77,7 +77,7 @@ object SampleData {
     )
 
     // Exactly nine apps, three pages; never repeat items to fill a page.
-    val showcasePages: List<List<AppInfo>> = sampleApps.chunked(APPS_PER_PAGE).also { pages ->
+    val showcasePages: List<List<AppInfoDto>> = sampleApps.chunked(APPS_PER_PAGE).also { pages ->
         require(pages.size == SHOWCASE_PAGE_COUNT && pages.all { it.size == APPS_PER_PAGE })
     }
 
@@ -87,9 +87,9 @@ object SampleData {
         "https://static.rustore.ru/apk/393868735/content/SCREENSHOT/c2dde8bc-c4ab-482a-80a5-2789149f598d.jpg",
     )
 
-    fun detailsFor(id: Int): AppDetails {
+    fun detailsFor(id: Int): AppDetailsDto {
         val app = sampleApps.first { it.id == id }
-        return AppDetails(
+        return AppDetailsDto(
             id = app.id,
             name = app.name,
             developer = if (id == 9) "VK Play" else "VK",

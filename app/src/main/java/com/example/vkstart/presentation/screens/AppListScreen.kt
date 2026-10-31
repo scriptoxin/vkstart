@@ -1,4 +1,4 @@
-package com.example.vkstart.ui.screens
+package com.example.vkstart.presentation.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -21,11 +21,10 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.vkstart.R
-import com.example.vkstart.data.SampleData
-import com.example.vkstart.model.AppInfo
-import com.example.vkstart.ui.components.AppListItem
-import com.example.vkstart.ui.components.AppToolbar
-import com.example.vkstart.ui.theme.VkstartTheme
+import com.example.vkstart.domain.model.AppInfo
+import com.example.vkstart.presentation.components.AppListItem
+import com.example.vkstart.presentation.components.AppToolbar
+import com.example.vkstart.presentation.theme.VkstartTheme
 import kotlinx.coroutines.launch
 
 @Composable
@@ -82,6 +81,6 @@ fun AppListScreen(
 @Composable
 fun AppListScreenPreview() {
     VkstartTheme {
-        AppListScreen(appList = SampleData.sampleApps)
+        AppListScreen(appList = emptyList())
     }
 }

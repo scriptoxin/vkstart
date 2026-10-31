@@ -1,4 +1,4 @@
-package com.example.vkstart.ui.appdetails
+package com.example.vkstart.presentation.appdetails
 
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -11,15 +11,16 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import com.example.vkstart.model.AppDetails
-import com.example.vkstart.model.AppInfo
-import com.example.vkstart.ui.components.Showcase
+import com.example.vkstart.domain.model.AppDetails
+import com.example.vkstart.domain.model.AppInfo
+import com.example.vkstart.presentation.components.Showcase
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
 fun AppDetailsContent(
     appDetails: AppDetails,
+    showcasePages: List<List<AppInfo>>,
     descriptionExpanded: Boolean,
     onBackClick: () -> Unit,
     onShareClick: () -> Unit,
@@ -77,7 +78,7 @@ fun AppDetailsContent(
         Spacer(Modifier.height(24.dp))
         HorizontalDivider(Modifier.padding(horizontal = 16.dp))
         Spacer(Modifier.height(16.dp))
-        Showcase(onAppClick = onShowcaseAppClick)
+        Showcase(pages = showcasePages, onAppClick = onShowcaseAppClick)
         Spacer(Modifier.height(24.dp))
     }
 }

@@ -1,4 +1,4 @@
-package com.example.vkstart.ui.appdetails
+package com.example.vkstart.presentation.appdetails
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues

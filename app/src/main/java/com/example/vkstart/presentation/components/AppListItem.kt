@@ -1,4 +1,4 @@
-package com.example.vkstart.ui.components
+package com.example.vkstart.presentation.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -25,7 +25,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.example.vkstart.model.AppInfo
+import com.example.vkstart.domain.model.AppInfo
 
 /**
  * Элемент списка приложений.

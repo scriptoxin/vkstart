@@ -1,4 +1,4 @@
-package com.example.vkstart.ui.components
+package com.example.vkstart.presentation.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

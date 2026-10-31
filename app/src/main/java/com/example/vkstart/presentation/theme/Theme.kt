@@ -1,4 +1,4 @@
-package com.example.vkstart.ui.theme
+package com.example.vkstart.presentation.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme

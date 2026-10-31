@@ -1,4 +1,4 @@
-package com.example.vkstart.ui.components
+package com.example.vkstart.presentation.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -18,12 +18,11 @@ import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import com.example.vkstart.R
-import com.example.vkstart.data.SampleData
-import com.example.vkstart.model.AppInfo
+import com.example.vkstart.domain.model.AppInfo
 
 @Composable
-fun Showcase(onAppClick: (AppInfo) -> Unit, modifier: Modifier = Modifier) {
-    val pagerState = rememberPagerState(pageCount = { SampleData.SHOWCASE_PAGE_COUNT })
+fun Showcase(pages: List<List<AppInfo>>, onAppClick: (AppInfo) -> Unit, modifier: Modifier = Modifier) {
+    val pagerState = rememberPagerState(pageCount = { pages.size })
     Column(modifier, verticalArrangement = Arrangement.spacedBy(12.dp)) {
         Text(
             text = stringResource(R.string.showcase),
@@ -41,7 +40,7 @@ fun Showcase(onAppClick: (AppInfo) -> Unit, modifier: Modifier = Modifier) {
                 modifier = Modifier.fillMaxWidth().testTag("showcase_page_$page"),
                 verticalArrangement = Arrangement.spacedBy(12.dp),
             ) {
-                SampleData.showcasePages[page].forEach { app ->
+                pages[page].forEach { app ->
                     AppListItem(appInfo = app, onClick = { onAppClick(app) })
                 }
             }

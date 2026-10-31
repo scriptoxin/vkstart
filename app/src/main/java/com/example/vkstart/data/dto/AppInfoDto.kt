@@ -1,6 +1,5 @@
-package com.example.vkstart.model
+package com.example.vkstart.data.dto
 
-import androidx.annotation.DrawableRes
 
 /**
  * Модель данных для приложения в списке.
@@ -11,10 +10,10 @@ import androidx.annotation.DrawableRes
  * @property category Категория приложения
  * @property iconRes Ресурс иконки приложения
  */
-data class AppInfo(
+data class AppInfoDto(
     val id: Int,
     val name: String,
     val description: String,
     val category: String,
-    @param:DrawableRes val iconRes: Int
+    val iconRes: Int
 )

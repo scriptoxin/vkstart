@@ -1,4 +1,4 @@
-package com.example.vkstart.ui.appdetails
+package com.example.vkstart.presentation.appdetails
 
 import android.content.Intent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,14 +17,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import com.example.vkstart.R
-import com.example.vkstart.model.AppDetails
-import com.example.vkstart.model.AppInfo
+import com.example.vkstart.domain.model.AppDetails
+import com.example.vkstart.domain.model.AppInfo
 import kotlinx.coroutines.launch
 
-/** VkEducation's detail screen, using hardcoded data instead of Hilt/API state. */
+/** Экран деталей приложения. */
 @Composable
 fun AppDetailsScreen(
     appDetails: AppDetails,
+    showcasePages: List<List<AppInfo>>,
     onBackClick: () -> Unit,
     onShowcaseAppClick: (AppInfo) -> Unit,
 ) {
@@ -40,6 +41,7 @@ fun AppDetailsScreen(
     Scaffold(snackbarHost = { SnackbarHost(snackbarHostState) }) { padding ->
         AppDetailsContent(
             appDetails = appDetails,
+            showcasePages = showcasePages,
             descriptionExpanded = descriptionExpanded,
             onBackClick = onBackClick,
             onShareClick = {

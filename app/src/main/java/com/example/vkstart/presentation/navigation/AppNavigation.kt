@@ -1,4 +1,4 @@
-package com.example.vkstart.ui.navigation
+package com.example.vkstart.presentation.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavType
@@ -6,9 +6,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.vkstart.data.SampleData
-import com.example.vkstart.ui.appdetails.AppDetailsScreen
-import com.example.vkstart.ui.screens.AppListRoute
+import com.example.vkstart.AppContainer
+import com.example.vkstart.presentation.appdetails.AppDetailsViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.compose.runtime.getValue
+import com.example.vkstart.presentation.appdetails.AppDetailsScreen
+import com.example.vkstart.presentation.screens.AppListRoute
 
 private const val APP_LIST = "apps"
 private const val APP_DETAILS = "apps/{appId}"
@@ -27,8 +31,14 @@ fun AppNavigation() {
             arguments = listOf(navArgument("appId") { type = NavType.IntType }),
         ) { entry ->
             val appId = requireNotNull(entry.arguments).getInt("appId")
+            val detailsViewModel: AppDetailsViewModel = viewModel(
+                viewModelStoreOwner = entry,
+                factory = AppDetailsViewModel.Factory(appId, AppContainer.appsRepository),
+            )
+            val state by detailsViewModel.uiState.collectAsStateWithLifecycle()
             AppDetailsScreen(
-                appDetails = SampleData.detailsFor(appId),
+                appDetails = state.details,
+                showcasePages = state.showcasePages,
                 onBackClick = { navController.popBackStack() },
                 onShowcaseAppClick = {
                     navController.navigate(APP_LIST) {

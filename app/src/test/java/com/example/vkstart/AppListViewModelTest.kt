@@ -3,9 +3,9 @@ package com.example.vkstart
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStore
-import com.example.vkstart.data.AppsRepository
-import com.example.vkstart.data.SampleData
-import com.example.vkstart.ui.screens.AppListViewModel
+import com.example.vkstart.domain.repository.AppsRepository
+import com.example.vkstart.data.SampleAppsRepository
+import com.example.vkstart.presentation.screens.AppListViewModel
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertSame
 import org.junit.Test
@@ -14,10 +14,13 @@ class AppListViewModelTest {
     @Test
     fun retainedViewModelKeepsContentWithoutLoadingAgain() {
         var loads = 0
-        val apps = SampleData.sampleApps
-        val repository = AppsRepository {
-            loads++
-            apps
+        val apps = SampleAppsRepository.getApps()
+        val repository = object : AppsRepository {
+            override fun getApps(): List<com.example.vkstart.domain.model.AppInfo> {
+                loads++
+                return apps
+            }
+            override fun getAppDetails(id: Int) = SampleAppsRepository.getAppDetails(id)
         }
         val factory = object : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {

@@ -1,25 +1,25 @@
 package com.example.vkstart.presentation.appdetails
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import com.example.vkstart.domain.model.AppDetails
 import com.example.vkstart.domain.model.AppInfo
 import com.example.vkstart.domain.repository.AppsRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import javax.inject.Inject
 
 data class AppDetailsUiState(val details: AppDetails, val showcasePages: List<List<AppInfo>>)
 
-class AppDetailsViewModel(appId: Int, repository: AppsRepository) : ViewModel() {
-    val uiState = MutableStateFlow(
-        AppDetailsUiState(repository.getAppDetails(appId), repository.getApps().chunked(3))
-    ).asStateFlow()
+@HiltViewModel
+class AppDetailsViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
+    repository: AppsRepository,
+) : ViewModel() {
+    private val appId: Int = checkNotNull(savedStateHandle["appId"])
 
-    class Factory(private val appId: Int, private val repository: AppsRepository) : ViewModelProvider.Factory {
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            require(modelClass.isAssignableFrom(AppDetailsViewModel::class.java))
-            @Suppress("UNCHECKED_CAST")
-            return AppDetailsViewModel(appId, repository) as T
-        }
-    }
+    val uiState = MutableStateFlow(
+        AppDetailsUiState(repository.getAppDetails(appId), repository.getApps().chunked(3)),
+    ).asStateFlow()
 }

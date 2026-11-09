@@ -18,8 +18,8 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.vkstart.R
 import com.example.vkstart.domain.model.AppInfo
 import com.example.vkstart.presentation.components.AppListItem
@@ -30,7 +30,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun AppListRoute(
     modifier: Modifier = Modifier,
-    viewModel: AppListViewModel = viewModel(),
+    viewModel: AppListViewModel = hiltViewModel(),
     onAppClick: (AppInfo) -> Unit = {},
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()

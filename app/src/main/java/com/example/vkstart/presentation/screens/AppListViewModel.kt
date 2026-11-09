@@ -1,17 +1,19 @@
 package com.example.vkstart.presentation.screens
 
 import androidx.lifecycle.ViewModel
-import com.example.vkstart.domain.repository.AppsRepository
-import com.example.vkstart.AppContainer
 import com.example.vkstart.domain.model.AppInfo
+import com.example.vkstart.domain.repository.AppsRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import javax.inject.Inject
 
 data class AppListUiState(val apps: List<AppInfo>)
 
-class AppListViewModel(
-    repository: AppsRepository = AppContainer.appsRepository,
+@HiltViewModel
+class AppListViewModel @Inject constructor(
+    repository: AppsRepository,
 ) : ViewModel() {
     // Load once per ViewModel, independently of recomposition and Activity recreation.
     val uiState: StateFlow<AppListUiState> =

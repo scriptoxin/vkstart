@@ -12,63 +12,63 @@ object SampleData {
     const val APPS_PER_PAGE = 3
     val sampleApps = listOf(
         AppInfoDto(
-            id = 1,
+            id = "1",
             name = "ВКонтакте",
             description = "Общение, музыка, видео, новости и сервисы в одном приложении",
             category = "Социальные сети",
             iconRes = R.drawable.ic_vk
         ),
         AppInfoDto(
-            id = 2,
+            id = "2",
             name = "VK Музыка",
             description = "Миллионы треков, подкасты, радио и персональные плейлисты",
             category = "Музыка",
             iconRes = R.drawable.ic_vk_music
         ),
         AppInfoDto(
-            id = 3,
+            id = "3",
             name = "VK Видео",
             description = "Фильмы, сериалы, шоу, стримы и эксклюзивный контент блогеров",
             category = "Видео",
             iconRes = R.drawable.ic_vk_video
         ),
         AppInfoDto(
-            id = 4,
+            id = "4",
             name = "VK Мессенджер",
             description = "Быстрые чаты, групповые видеозвонки и обмен файлами",
             category = "Общение",
             iconRes = R.drawable.ic_vk_messenger
         ),
         AppInfoDto(
-            id = 5,
+            id = "5",
             name = "VK Play",
             description = "Игровой каталог, новости, облачный гейминг и киберспорт",
             category = "Игры",
             iconRes = R.drawable.ic_vk_play
         ),
         AppInfoDto(
-            id = 6,
+            id = "6",
             name = "Сферум",
             description = "Безопасное учебное пространство, уроки и школьные коммуникации",
             category = "Образование",
             iconRes = R.drawable.ic_sferum
         ),
         AppInfoDto(
-            id = 7,
+            id = "7",
             name = "Почта Mail.ru",
             description = "Удобный почтовый клиент с защитой от спама и умными папками",
             category = "Инструменты",
             iconRes = R.drawable.ic_mail
         ),
         AppInfoDto(
-            id = 8,
+            id = "8",
             name = "Облако Mail",
             description = "Хранение фотографий, документов и резервных копий",
             category = "Инструменты",
             iconRes = R.drawable.ic_cloud
         ),
         AppInfoDto(
-            id = 9,
+            id = "9",
             name = "Гильдия Героев: Экшен ММО РПГ",
             description = "Легендарный рейд героев в Фэнтези РПГ. Станьте героем гильдии и сразите мастера подземелья!",
             category = "Игры",
@@ -87,17 +87,18 @@ object SampleData {
         "https://static.rustore.ru/apk/393868735/content/SCREENSHOT/c2dde8bc-c4ab-482a-80a5-2789149f598d.jpg",
     )
 
-    fun detailsFor(id: Int): AppDetailsDto {
-        val app = sampleApps.first { it.id == id }
+    fun detailsFor(id: String): AppDetailsDto {
+        val app = sampleApps.firstOrNull { it.id == id } ?: sampleApps.first()
         return AppDetailsDto(
             id = app.id,
             name = app.name,
-            developer = if (id == 9) "VK Play" else "VK",
+            developer = if (id == "9") "VK Play" else "VK",
             category = app.category,
-            ageRating = if (id == 6) 6 else 12,
-            size = if (id == 9) 223.7f else 85f,
+            ageRating = if (id == "6") 6 else 12,
+            size = if (id == "9") 223.7f else 85f,
             iconRes = app.iconRes,
-            screenshotUrlList = if (id == 9) guildScreenshots else emptyList(),
+            iconUrl = app.iconUrl,
+            screenshotUrlList = if (id == "9") guildScreenshots else emptyList(),
             description = app.description,
         )
     }

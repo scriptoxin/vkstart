@@ -4,6 +4,6 @@ import com.example.vkstart.domain.model.AppInfo
 import com.example.vkstart.domain.model.AppDetails
 
 interface AppsRepository {
-    fun getApps(): List<AppInfo>
-    fun getAppDetails(id: Int): AppDetails
+    suspend fun getApps(): List<AppInfo>
+    suspend fun getAppDetails(id: String): AppDetails
 }

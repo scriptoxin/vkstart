@@ -1,15 +1,16 @@
 package com.example.vkstart.data.dto
 
+import com.google.gson.annotations.SerializedName
 
-// Local-data adaptation of VkEducation/domain/appdetails/AppDetails.kt.
 data class AppDetailsDto(
-    val id: Int,
-    val name: String,
-    val developer: String,
-    val category: String,
-    val ageRating: Int,
-    val size: Float,
-    val iconRes: Int,
-    val screenshotUrlList: List<String>,
-    val description: String,
+    @SerializedName("id") val id: String,
+    @SerializedName("name") val name: String,
+    @SerializedName("developer") val developer: String,
+    @SerializedName("category") val category: String,
+    @SerializedName("ageRating") val ageRating: Int,
+    @SerializedName("size") val size: Float,
+    @SerializedName("iconUrl") val iconUrl: String? = null,
+    val iconRes: Int = 0,
+    @SerializedName("screenshotUrlList") val screenshotUrlList: List<String> = emptyList(),
+    @SerializedName("description") val description: String,
 )

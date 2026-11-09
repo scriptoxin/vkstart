@@ -25,6 +25,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import coil3.compose.AsyncImage
+import com.example.vkstart.R
 import com.example.vkstart.domain.model.AppInfo
 
 /**
@@ -52,14 +54,25 @@ fun AppListItem(
                 .padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Image(
-                painter = painterResource(id = appInfo.iconRes),
-                contentDescription = appInfo.name,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .size(56.dp)
-                    .clip(RoundedCornerShape(12.dp))
-            )
+            if (appInfo.iconUrl.isNotBlank()) {
+                AsyncImage(
+                    model = appInfo.iconUrl,
+                    contentDescription = appInfo.name,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .size(56.dp)
+                        .clip(RoundedCornerShape(12.dp))
+                )
+            } else {
+                Image(
+                    painter = painterResource(id = if (appInfo.iconRes != 0) appInfo.iconRes else R.drawable.ic_vk),
+                    contentDescription = appInfo.name,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .size(56.dp)
+                        .clip(RoundedCornerShape(12.dp))
+                )
+            }
 
             Spacer(modifier = Modifier.width(16.dp))
 

@@ -27,21 +27,23 @@ fun AppNavigation() {
         }
         composable(
             route = APP_DETAILS,
-            arguments = listOf(navArgument("appId") { type = NavType.IntType }),
+            arguments = listOf(navArgument("appId") { type = NavType.StringType }),
         ) {
             val detailsViewModel: AppDetailsViewModel = hiltViewModel()
             val state by detailsViewModel.uiState.collectAsStateWithLifecycle()
-            AppDetailsScreen(
-                appDetails = state.details,
-                showcasePages = state.showcasePages,
-                onBackClick = { navController.popBackStack() },
-                onShowcaseAppClick = {
-                    navController.navigate(APP_LIST) {
-                        popUpTo(APP_LIST) { inclusive = false }
-                        launchSingleTop = true
-                    }
-                },
-            )
+            state.details?.let { details ->
+                AppDetailsScreen(
+                    appDetails = details,
+                    showcasePages = state.showcasePages,
+                    onBackClick = { navController.popBackStack() },
+                    onShowcaseAppClick = {
+                        navController.navigate(APP_LIST) {
+                            popUpTo(APP_LIST) { inclusive = false }
+                            launchSingleTop = true
+                        }
+                    },
+                )
+            }
         }
     }
 }

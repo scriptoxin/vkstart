@@ -1,5 +1,6 @@
 package com.example.vkstart.presentation.appdetails
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
@@ -16,16 +17,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-
+import coil3.compose.AsyncImage
 import com.example.vkstart.R
 import com.example.vkstart.domain.model.AppDetails
-import androidx.compose.foundation.Image
-import androidx.compose.ui.res.painterResource
 import kotlin.math.roundToInt
 
 @Composable
@@ -37,14 +37,25 @@ fun AppDetailsHeader(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Image(
-            painter = painterResource(appDetails.iconRes),
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .size(128.dp)
-                .clip(RoundedCornerShape(16.dp)),
-        )
+        if (appDetails.iconUrl.isNotBlank()) {
+            AsyncImage(
+                model = appDetails.iconUrl,
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .size(128.dp)
+                    .clip(RoundedCornerShape(16.dp)),
+            )
+        } else {
+            Image(
+                painter = painterResource(if (appDetails.iconRes != 0) appDetails.iconRes else R.drawable.ic_vk),
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .size(128.dp)
+                    .clip(RoundedCornerShape(16.dp)),
+            )
+        }
         Spacer(Modifier.width(16.dp))
         Column {
             Text(
@@ -84,4 +95,3 @@ fun AppDetailsHeader(
         }
     }
 }
-

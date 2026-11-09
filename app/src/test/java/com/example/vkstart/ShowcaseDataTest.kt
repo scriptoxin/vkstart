@@ -1,12 +1,13 @@
 package com.example.vkstart
 
 import com.example.vkstart.data.SampleAppsRepository
+import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class ShowcaseDataTest {
     @Test
-    fun showcaseContainsNineDistinctAppsInThreeFullPages() {
+    fun showcaseContainsNineDistinctAppsInThreeFullPages() = runBlocking {
         val pages = SampleAppsRepository.getApps().chunked(3)
         assertEquals(3, pages.size)
         pages.forEach { assertEquals(3, it.size) }
@@ -14,7 +15,7 @@ class ShowcaseDataTest {
     }
 
     @Test
-    fun everyListedAppResolvesToItsOwnDetails() {
+    fun everyListedAppResolvesToItsOwnDetails() = runBlocking {
         SampleAppsRepository.getApps().forEach { app ->
             val details = SampleAppsRepository.getAppDetails(app.id)
             assertEquals(app.id, details.id)

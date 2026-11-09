@@ -14,8 +14,8 @@ class AppMapperTest {
     @Test
     fun mapsEveryListField() {
         assertEquals(
-            AppInfo(42, "Name", "Description", "Category", 123),
-            mapper.toDomain(AppInfoDto(42, "Name", "Description", "Category", 123)),
+            AppInfo("42", "Name", "Description", "Category", "url", 123),
+            mapper.toDomain(AppInfoDto("42", "Name", "Description", "Category", "url", 123)),
         )
     }
 
@@ -23,11 +23,11 @@ class AppMapperTest {
     fun mapsEveryDetailsFieldAndCopiesScreenshots() {
         val screenshots = mutableListOf("first", "second")
         val result = mapper.toDomain(
-            AppDetailsDto(42, "Name", "Developer", "Category", 16, 123.5f, 123, screenshots, "Description"),
+            AppDetailsDto("42", "Name", "Developer", "Category", 16, 123.5f, "url", 123, screenshots, "Description"),
         )
         screenshots.clear()
         assertEquals(
-            AppDetails(42, "Name", "Developer", "Category", 16, 123.5f, 123, listOf("first", "second"), "Description"),
+            AppDetails("42", "Name", "Developer", "Category", 16, 123.5f, "url", 123, listOf("first", "second"), "Description"),
             result,
         )
     }

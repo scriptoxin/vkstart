@@ -1,15 +1,14 @@
 package com.example.vkstart.domain.model
 
-
-// Local-data adaptation of VkEducation/domain/appdetails/AppDetails.kt.
 data class AppDetails(
-    val id: Int,
+    val id: String,
     val name: String,
     val developer: String,
     val category: String,
     val ageRating: Int,
     val size: Float,
-    val iconRes: Int,
-    val screenshotUrlList: List<String>,
+    val iconUrl: String = "",
+    val iconRes: Int = 0,
+    val screenshotUrlList: List<String> = emptyList(),
     val description: String,
 )

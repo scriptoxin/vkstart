@@ -8,12 +8,14 @@ package com.example.vkstart.domain.model
  * @property name Название приложения
  * @property description Краткое описание приложения
  * @property category Категория приложения
+ * @property iconUrl URL иконки приложения
  * @property iconRes Ресурс иконки приложения
  */
 data class AppInfo(
-    val id: Int,
+    val id: String,
     val name: String,
     val description: String,
     val category: String,
-    val iconRes: Int
+    val iconUrl: String = "",
+    val iconRes: Int = 0,
 )

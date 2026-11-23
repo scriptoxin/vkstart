@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 fun AppDetailsContent(
     appDetails: AppDetails,
     showcasePages: List<List<AppInfo>>,
+    installState: InstallState,
     descriptionExpanded: Boolean,
     onBackClick: () -> Unit,
     onShareClick: () -> Unit,
@@ -42,6 +43,7 @@ fun AppDetailsContent(
         )
         Spacer(Modifier.height(16.dp))
         InstallButton(
+            installState = installState,
             onClick = onInstallClick,
             modifier = Modifier
                 .fillMaxWidth()
@@ -82,4 +84,3 @@ fun AppDetailsContent(
         Spacer(Modifier.height(24.dp))
     }
 }
-

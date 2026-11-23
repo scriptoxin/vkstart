@@ -26,7 +26,9 @@ import kotlinx.coroutines.launch
 fun AppDetailsScreen(
     appDetails: AppDetails,
     showcasePages: List<List<AppInfo>>,
+    installState: InstallState = InstallState.NotInstalled,
     onBackClick: () -> Unit,
+    onInstallClick: () -> Unit,
     onShowcaseAppClick: (AppInfo) -> Unit,
 ) {
     var descriptionExpanded by rememberSaveable(appDetails.id) { mutableStateOf(false) }
@@ -42,6 +44,7 @@ fun AppDetailsScreen(
         AppDetailsContent(
             appDetails = appDetails,
             showcasePages = showcasePages,
+            installState = installState,
             descriptionExpanded = descriptionExpanded,
             onBackClick = onBackClick,
             onShareClick = {
@@ -51,7 +54,7 @@ fun AppDetailsScreen(
                 }
                 context.startActivity(Intent.createChooser(intent, appDetails.name))
             },
-            onInstallClick = showUnderDevelopment,
+            onInstallClick = onInstallClick,
             onReadMoreClick = { descriptionExpanded = true },
             onDeveloperClick = showUnderDevelopment,
             onShowcaseAppClick = onShowcaseAppClick,

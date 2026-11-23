@@ -42,6 +42,9 @@ class AppListViewModelTest {
                 return apps
             }
             override suspend fun getAppDetails(id: String) = SampleAppsRepository.getAppDetails(id)
+            override suspend fun getRating(id: String): Float = 5.0f
+            override suspend fun loadRatingsSequentially(ids: List<String>): Map<String, Float> = emptyMap()
+            override suspend fun loadRatingsInParallel(ids: List<String>): Map<String, Float> = emptyMap()
         }
         val factory = object : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {

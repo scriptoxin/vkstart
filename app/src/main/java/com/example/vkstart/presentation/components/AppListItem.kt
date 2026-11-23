@@ -12,8 +12,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -28,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.example.vkstart.R
 import com.example.vkstart.domain.model.AppInfo
+import java.util.Locale
 
 /**
  * Элемент списка приложений.
@@ -98,7 +102,13 @@ fun AppListItem(
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                CategoryBadge(category = appInfo.category)
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    CategoryBadge(category = appInfo.category)
+                    if (appInfo.rating != null) {
+                        Spacer(modifier = Modifier.width(8.dp))
+                        RatingBadge(rating = appInfo.rating)
+                    }
+                }
             }
         }
     }
@@ -118,5 +128,31 @@ private fun CategoryBadge(category: String) {
             fontWeight = FontWeight.Medium,
             color = MaterialTheme.colorScheme.onPrimaryContainer
         )
+    }
+}
+
+@Composable
+private fun RatingBadge(rating: Float) {
+    Box(
+        modifier = Modifier
+            .clip(RoundedCornerShape(8.dp))
+            .background(MaterialTheme.colorScheme.tertiaryContainer)
+            .padding(horizontal = 8.dp, vertical = 4.dp)
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Icon(
+                imageVector = Icons.Filled.Star,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onTertiaryContainer,
+                modifier = Modifier.size(14.dp)
+            )
+            Spacer(modifier = Modifier.width(4.dp))
+            Text(
+                text = String.format(Locale.US, "%.1f", rating),
+                style = MaterialTheme.typography.labelSmall,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onTertiaryContainer
+            )
+        }
     }
 }

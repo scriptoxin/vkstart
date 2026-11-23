@@ -10,6 +10,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.vkstart.presentation.appdetails.AppDetailsScreen
+import com.example.vkstart.presentation.appdetails.AppDetailsState
 import com.example.vkstart.presentation.appdetails.AppDetailsViewModel
 import com.example.vkstart.presentation.screens.AppListRoute
 
@@ -30,19 +31,24 @@ fun AppNavigation() {
             arguments = listOf(navArgument("appId") { type = NavType.StringType }),
         ) {
             val detailsViewModel: AppDetailsViewModel = hiltViewModel()
-            val state by detailsViewModel.uiState.collectAsStateWithLifecycle()
-            state.details?.let { details ->
-                AppDetailsScreen(
-                    appDetails = details,
-                    showcasePages = state.showcasePages,
-                    onBackClick = { navController.popBackStack() },
-                    onShowcaseAppClick = {
-                        navController.navigate(APP_LIST) {
-                            popUpTo(APP_LIST) { inclusive = false }
-                            launchSingleTop = true
-                        }
-                    },
-                )
+            val state by detailsViewModel.state.collectAsStateWithLifecycle()
+            when (val currentState = state) {
+                is AppDetailsState.Loading -> { }
+                is AppDetailsState.Content -> {
+                    AppDetailsScreen(
+                        appDetails = currentState.details,
+                        showcasePages = currentState.showcasePages,
+                        installState = currentState.installState,
+                        onBackClick = { navController.popBackStack() },
+                        onInstallClick = { detailsViewModel.onInstallClick() },
+                        onShowcaseAppClick = {
+                            navController.navigate(APP_LIST) {
+                                popUpTo(APP_LIST) { inclusive = false }
+                                launchSingleTop = true
+                            }
+                        },
+                    )
+                }
             }
         }
     }

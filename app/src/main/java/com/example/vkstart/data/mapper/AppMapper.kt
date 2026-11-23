@@ -28,4 +28,26 @@ class AppMapper @Inject constructor() {
         screenshotUrlList = dto.screenshotUrlList.toList(),
         description = dto.description,
     )
+
+    fun toDto(domain: AppInfo) = AppInfoDto(
+        id = domain.id,
+        name = domain.name,
+        description = domain.description,
+        category = domain.category,
+        iconUrl = domain.iconUrl.ifEmpty { null },
+        iconRes = domain.iconRes,
+    )
+
+    fun toDto(domain: AppDetails) = AppDetailsDto(
+        id = domain.id,
+        name = domain.name,
+        developer = domain.developer,
+        category = domain.category,
+        ageRating = domain.ageRating,
+        size = domain.size,
+        iconUrl = domain.iconUrl.ifEmpty { null },
+        iconRes = domain.iconRes,
+        screenshotUrlList = domain.screenshotUrlList.toList(),
+        description = domain.description,
+    )
 }

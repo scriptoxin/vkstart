@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.vkstart.domain.model.AppInfo
 import com.example.vkstart.domain.repository.AppsRepository
+import com.example.vkstart.domain.usecase.GetAppsUseCase
+import com.example.vkstart.domain.usecase.LoadRatingsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -22,8 +24,15 @@ data class AppListUiState(
 
 @HiltViewModel
 class AppListViewModel @Inject constructor(
-    private val repository: AppsRepository,
+    private val getAppsUseCase: GetAppsUseCase,
+    private val loadRatingsUseCase: LoadRatingsUseCase,
 ) : ViewModel() {
+
+    constructor(repository: AppsRepository) : this(
+        GetAppsUseCase(repository),
+        LoadRatingsUseCase(repository),
+    )
+
     private val _uiState = MutableStateFlow(AppListUiState())
     val uiState: StateFlow<AppListUiState> = _uiState.asStateFlow()
 
@@ -33,7 +42,7 @@ class AppListViewModel @Inject constructor(
 
     fun loadApps() {
         viewModelScope.launch {
-            val apps = repository.getApps()
+            val apps = getAppsUseCase()
             _uiState.update { it.copy(apps = apps) }
         }
     }
@@ -44,7 +53,7 @@ class AppListViewModel @Inject constructor(
             val ids = _uiState.value.apps.map { it.id }
             var ratings: Map<String, Float>
             val time = measureTimeMillis {
-                ratings = repository.loadRatingsSequentially(ids)
+                ratings = loadRatingsUseCase(ids, parallel = false)
             }
             _uiState.update { state ->
                 state.copy(
@@ -63,7 +72,7 @@ class AppListViewModel @Inject constructor(
             val ids = _uiState.value.apps.map { it.id }
             var ratings: Map<String, Float>
             val time = measureTimeMillis {
-                ratings = repository.loadRatingsInParallel(ids)
+                ratings = loadRatingsUseCase(ids, parallel = true)
             }
             _uiState.update { state ->
                 state.copy(

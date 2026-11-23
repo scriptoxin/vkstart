@@ -6,6 +6,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.vkstart.domain.model.AppDetails
 import com.example.vkstart.domain.model.AppInfo
 import com.example.vkstart.domain.repository.AppsRepository
+import com.example.vkstart.domain.usecase.GetAppDetailsUseCase
+import com.example.vkstart.domain.usecase.GetShowcasePagesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -28,9 +30,16 @@ sealed interface AppDetailsState {
 @HiltViewModel
 class AppDetailsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val repository: AppsRepository,
+    private val getAppDetailsUseCase: GetAppDetailsUseCase,
+    private val getShowcasePagesUseCase: GetShowcasePagesUseCase,
 ) : ViewModel() {
     private val appId: String = checkNotNull(savedStateHandle["appId"])
+
+    constructor(savedStateHandle: SavedStateHandle, repository: AppsRepository) : this(
+        savedStateHandle = savedStateHandle,
+        getAppDetailsUseCase = GetAppDetailsUseCase(repository),
+        getShowcasePagesUseCase = GetShowcasePagesUseCase(repository),
+    )
 
     private val _state = MutableStateFlow<AppDetailsState>(AppDetailsState.Loading)
     val state: StateFlow<AppDetailsState> = _state.asStateFlow()
@@ -39,8 +48,8 @@ class AppDetailsViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            val details = repository.getAppDetails(appId)
-            val apps = repository.getApps().chunked(3)
+            val details = getAppDetailsUseCase(appId)
+            val apps = getShowcasePagesUseCase(pageSize = 3)
             _state.value = AppDetailsState.Content(details, apps)
         }
     }
